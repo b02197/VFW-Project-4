@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--Michael Eaton -->
+<!--Project 3 web app-->
+<!--1302-->
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="keyword" content="cheeseburger, hamburger" />
+            <meta name="description" content="This is a web app for making a burger order" />
+            <meta name="robots" content="index, follow" />
+            <meta name="viewport" content="user-scalable=no, width=device-width" />
+            <link href="css/styles.css" rel="stylesheet" />
+            <title>Burger Maker</title>
+        </head>
+        <body>
+            <h1 id="burger">Place a Burger order</h1>
+            <nav>
+                <a href="#" id="clear">Clear stored data</a> <!-- Clear data link -->
+                <a href="#" id="displayData">Display data</a>  <!-- Display data link-->
+                <a href="additem.html" id="addContent" style="display:none;">Add More Burgers</a>
+            </nav>
+            <form action="#" method="post" id="burgerMaker">
+                <fieldset id="order">                       
+                    <legend>Make A Burger</legend>
+                    <ul id="errors"></ul>
+                    <ul id="entery">
+                        <li><label for="sName">Server Name:</label><input type="text" id="sName" /></li>
+                        <li><label for="tDate">Today's Date:</label><input type="date" id="tDate"/></li>
+                        <li><label for="tNum">Table Number</label><input type="range" name="tNum" min="1" max="50" id="tNum"/></li>
+                        <li id="dropDown"><label for="temperature">What temperature would you like your burger?</label></li>
+                        <li><input type="checkbox" value="Yes" id="cheese" /><label for="cheese">Would you like cheese?</label></li>
+                        <li><label for="cond">Condiments:</label><textarea id="cond"></textarea></li>
+                        <li><label for= "side">Side dish?</label>
+                            <ul>
+                                <li><input type="radio" checked value="No Side" id="noSide" name="side" /><label for="noSide">No Side</label></li>
+                                <li><input type="radio"  value="Fries" id="fries" name="side" /><label for="fries">Fries</label></li>
+                                <li><input type="radio"  value="Onion Rings" id="oring" name="side" /><label for="oring">Onion Rings</label></li>
+                                <li><input type="radio"  value="chips" id="chips" name="side" /><label for="chips">Chips</label></li>
+                            </ul>   
+                        </li>
+                    </ul>
+                </fieldset>
+                <footer>
+                    <input type="button" value="Send Order" id="submit"/> <!-- Submit button for form -->
+                    <input type="hidden" value="true" id="hidden" />   <!-- hidden button -->
+                </footer>
+            </form>
+            <script src="js/main.js" type="text/javascript"></script>
+        </body>
+    </html>
