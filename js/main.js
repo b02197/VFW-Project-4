@@ -94,7 +94,8 @@ function togCont(n){
    function getData(){
       togCont("on");
       if(localStorage.length === 0){
-         alert("There is no data found in the local storage.");
+         alert("There is no data found in the local storage so default dat was loaded.");
+         defaultData();
       }
       var createDiv = document.createElement('Div');
       createDiv.setAttribute("id", "item");
@@ -120,6 +121,13 @@ function togCont(n){
             createSubList.appendChild(linkLi);
          }
          createItemLinks(localStorage.key(i), linkLi);  //Makes the edit and delete link for the items in LS
+      }
+   }
+//Auto fill data function
+   function defaultData(){
+      for(var x in burgerObj){
+         var id = Math.floor(Math.random()*9999999);
+         localStorage.setItem(id, JSON.stringify(burgerObj[x]));
       }
    }
    
@@ -173,7 +181,7 @@ function togCont(n){
       save.removeEventListener("click", saveData);
       $('submit').value = "Edit Order";
       var editSubmit = $('submit');
-      editSubmit.addEventListener("click",validate);
+      editSubmit.addEventListener("click", validate);
       editSubmit.key = this.key;
    }
   //function to make the delete link work 
@@ -201,8 +209,8 @@ function togCont(n){
    function validate(e){
       var getSname = $('sName');
       var getTemps = $('temps');
-      
-      errMsg.innHTML = "";
+      //reset error message
+      errMsg.innerHTML = "";
       getSname.style.border = "1px solid black";
       getTemps.style.border = "1px solid black";
       
