@@ -115,6 +115,7 @@ window.addEventListener("DOMContentLoaded", function(){
 	togcont("on");
 	if(localStorage.length === 0){
 		alert("There are no games to display. Populating local storage with default content.");
+		defaultData();
 	}
 //Write data ffom local storage to browser
 		var makeDiv = document.createElement('div');
@@ -145,14 +146,15 @@ window.addEventListener("DOMContentLoaded", function(){
 	
 	}
 	
-	
-//auto populate local storage
-	function autoFillData(){
-		for(var x in json){
-			var id = Math.floor(Math.random()*9999999);
-			localStorage.setItem(id, JSON.stringify(json(n)));
-		}
-	}
+
+//Auto fill data function
+   function defaultData(){
+      for(var x in gameData){
+         var id = Math.floor(Math.random()*9999999);
+         localStorage.setItem(id, JSON.stringify(gameData[x]));
+      }
+   }
+   
 //make item link functio to create and delete links for each stored iotem when displayed
 	function makeItemLink(key, linkLi){
 //add edit single item link
