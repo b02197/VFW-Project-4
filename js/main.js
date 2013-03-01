@@ -1,260 +1,305 @@
 //Michael Eaton
-//Project 3 js
-//term1302
+//js for game library
 
-//Wait until DOM is loaded
+
+//Wait until the DOM is loaded
 window.addEventListener("DOMContentLoaded", function(){
-
-//getElementById funtion to get the ids
+    
+//getElementById function to get the ids
     function $(x){
-       var theElement = document.getElementById(x);
-       return theElement;
+        var theElement = document.getElementById(x);
+        return theElement;
     }
     
-//Create select field element and populate with options
-    function makeDrop(){
+//Create select field element and populate with options for genre drop down
+    function getDrop1(){
         var formtag = document.getElementsByTagName("form"),
-            selLi = $('dropDown'),
-            createSelect = document.createElement('select');
-            createSelect.setAttribute("id", "temps");
-        for(var i=0, j=meatTemp.length; i<j; i++){
-            var createOption = document.createElement('option');
-            var optText = meatTemp[i];
-            createOption.setAttribute("value", optText);
-            createOption.innerHTML = optText;
-            createSelect.appendChild(createOption);
+        getLi = $('genDown'),
+        makeSelect = document.createElement('select');
+        makeSelect.setAttribute("id", "gen");
+        for(var i=0, j=genreList.length; i<j; i++){
+            var makeOption = document.createElement('option');
+            var optText = genreList[i];
+            makeOption.setAttribute("value", optText);
+            makeOption.innerHTML = optText;
+            makeSelect.appendChild(makeOption);
         }
-        selLi.appendChild(createSelect);
+        getLi.appendChild(makeSelect);
     }
     
-//Find the value of a selected radio button
-   function getSelectedRadio(){
-      var radio = document.forms[0].side;
-      for(var i=0; i<radio.length; i++){
-         if(radio[i].checked){
-         sideValue = radio[i].value;
-         }
-      }
-   }
+//Create select field element and populate with options for the console drop down
+    function getDrop2(){
+        var fromtag = document.getElementsByTagName("form"),
+        getLi = $('conDown'),
+        makeSelect = document.createElement('select');
+        makeSelect.setAttribute("id", "con");
+        for(var i=0, j=consoleList.length; i<j; i++){
+        	var makeOption = document.createElement('option');
+        	var optText = consoleList[i];
+        	makeOption.setAttribute("value", optText);
+            makeOption.innerHTML = optText;
+            makeSelect.appendChild(makeOption);
+        }
+        getLi.appendChild(makeSelect);
+    }
 
-//checkbox values
-function getCheckValue(){
-   if($('cheese').checked){
-      cheeseValue = $('cheese').value
-   }else{
-      cheeseValue = "No"
-   }
-   
-}
-//toggles links for display page
-function togCont(n){
-   switch(n){
-      case "on":
-         $('burgerMaker').style.display = "none";
-         $('clear').style.display = "inline";
-         $('displayData').style.display = "none";
-         $('addContent').style.display = "inline";
-         break;
-      case "off":
-         $('burgerMaker').style.display = "block";
-         $('clear').style.display = "inline";
-         $('displayData').style.display = "inline";
-         $('addContent').style.display = "none";
-         $('item').style.display = "none";
-         break;
-      default:
-         break;
-      
-   } return false;
-}
-//saveData function
-   function saveData(key){
-      if(key){
-      var id = Math.floor(Math.random()*9999999)
-      }else{
-         id= key;
-      }
-//Gather all form field data in an object.
-//Object properies will contain an array with the form labal and input value.
-      getSelectedRadio();
-      getCheckValue();
-      var item = {};
-         item.sName = ["Server's Name:", $('sName').value];
-         item.tDate = ["Today's Date:", $('tDate').value];
-         item.tNum = ["Table Number:", $('tNum').value];
-         item.temps = ["Temperature:", $('temps').value];
-         item.cheese = ["Cheese?:", cheeseValue];
-         item.cond = ["Special Notes:", $('cond').value];
-         item.side = ["Sides", sideValue];
-//Save data into local storage. Use stringify to convert object to a string.
-      localStorage.setItem(id, JSON.stringify(item));
-      alert("Order is Placed");
-}
-//function to display data to browser
-   function getData(){
-      togCont("on");
-      if(localStorage.length === 0){
-         alert("There is no data found in the local storage so default dat was loaded.");
-         defaultData();
-      }
-      var createDiv = document.createElement('Div');
-      createDiv.setAttribute("id", "item");
-      var createList = document.createElement('ul');
-      createDiv.appendChild(createList);
-      document.body.appendChild(createDiv);
-      $('item').style.display = "block";
-      for(var i=0, j=localStorage.length; i<j; i++){
-         var createli = document.createElement('li');
-         var linkLi = document.createElement('li');
-         createList.appendChild(createli);
-         var key = localStorage.key(i);
-         var value = localStorage.getItem(key);
-//convert string back to object
-         var infoObj = JSON.parse(value);
-         var createSubList = document.createElement('ul');
-         createli.appendChild(createSubList);
-         for(var y in infoObj){
-            var createSubli = document.createElement('li');
-            createSubList.appendChild(createSubli);
-            var optSubText = infoObj[y] [0] +" "+ infoObj[y] [1];
-            createSubli.innerHTML = optSubText;
-            createSubList.appendChild(linkLi);
-         }
-         createItemLinks(localStorage.key(i), linkLi);  //Makes the edit and delete link for the items in LS
-      }
-   }
-//Auto fill data function
-   function defaultData(){
-      for(var x in burgerObj){
-         var id = Math.floor(Math.random()*9999999);
-         localStorage.setItem(id, JSON.stringify(burgerObj[x]));
-      }
-   }
-   
-// Function that makes the edit and delete link for items displayed 
-   function createItemLinks(key, linkLi){
-      var editLink = document.createElement('a');
-      editLink.href = "#";
-      editLink.key = key;
-      var editTxt = "Edit Order";
-      editLink.addEventListener("click", editItem);
-      editLink.innerHTML = editTxt;
-      linkLi.appendChild(editLink);
-      
-      var delLink = document.createElement('a');
-      delLink.href = "#";
-      delLink.key = key;
-      var delTxt = "Delete Order";
-      delLink.addEventListener("click", delItem)
-      delLink.innerHTML = delTxt;
-      linkLi.appendChild(delLink);
-      
-      
-   }
- //function to make the edit link work  
-   function editItem(){
-      var value = localStorage.getItem(this.key);
-      var item = JSON.parse(value);
-      
-      togCont("off");
-      
-      $('sName').value = item.sName[1];
-      $('tDate').value = item.tDate[1];
-      $('tNum').value = item.tNum[1];
-      $('temps').value = item.temps[1];
-      if(item.cheese[1] == "yes"){
-         $('cheese').setAttribute("checked", "checked");
-      }
-      $('cond').value = item.cond[1];
-      var radio = document.forms[0].side;
-      for(var i=0; i<radio.length; i++){
-         if(radio[i].value === "No Side" && item.side[1] === "No Side"){
-            radio[i].setAttribute("checked", "checked");
-         }else if(radio[i].value === "Fries" && item.side[1] === "Fries"){
-            radio[i].setAttribute("checked", "checked");
-            } else if(radio[i].value === "Onion Rings" && item.side[1] === "Onion Rings"){
-                  radio[i].setAttribute("checked", "checked");
-               }else if(radio[i].value === "Chips" && item.side[1] === "Chips"){
-                  radio[i].setAttribute("checked", "checked");
-               }
-      }
-      save.removeEventListener("click", saveData);
-      $('submit').value = "Edit Order";
-      var editSubmit = $('submit');
-      editSubmit.addEventListener("click", validate);
-      editSubmit.key = this.key;
-   }
-  //function to make the delete link work 
-   function delItem(){
-      var ask = confirm("Are you sure you want to delete this order?");
-      if(ask){
-         localStorage.removeItem(this.key);
-         alert("The order was delete.")
-         window.location.reload();
-      }else{
-         alert("Order was not deleted.")
-         
-      }
-   }
-   
-   //function for clearing data
-   function clearData(){
-      localStorage.clear();
-      alert("You have deleted the order.");
-      window.location.reload();
-      return false;
-}
-//form validation function
+//Find value of selected radio button
+	function getSelectedRadio(){
+		var radio = document.forms[0].enjoy;
+		for(var i=0; i<radio.length; i++){
+			if(radio[i].checked){
+				enjoyValue = radio[i].value;
+			}
+		}
+	}
+	
+//find the value of the checkbox
+	function getCheckboxValue(){
+		if($('beat').checked){
+			beatValue = $('beat').value;
+		}else{
+			beatValue = "No";
+		}
+	}
+//Toggle the links	
+	function togcont(n){
+		switch(n){
+			case "on":
+				$('gameLib').style.display = "none";
+				$('clear').style.display = "inline";
+				$('displayData').style.display = "none";
+				$('addContent').style.display = "inline";
+				break;
+			case "off":
+				$('gameLib').style.display = "block";
+				$('clear').style.display = "inline";
+				$('displayData').style.display = "inline";
+				$('addContent').style.display = "none";
+				$('items').style.display = "none";
+				break;
+			default:
+				return false;
+		}
+	}
+//SaveData function
+	function saveData(key){
+//if there is no key, this will make a new key
+		if(!key){
+		var id = Math.floor(Math.random()*9999999);
+		}else{
+//set the id to the existing key that will save over the data
+			id = key;
+		}
+		getSelectedRadio();
+		getCheckboxValue();
+// Gather up all our form field values and store in a object
+//Object properties contain array with the form label and input value
+	var item = {};
+	item.gen = ["Genre:", $('gen').value];
+	item.gName = ["Game Name:", $('gName').value];
+	item.con = ["Console:", $('con').value];
+	item.enjoy =["Enjoy Game:", enjoyValue];
+	item.beat = ["Beaten Game:", beatValue];
+	item.date = ["Date Beaten:", $('date').value];
+	item.rate = ["Rate Game:", $('rate').value];
+	item.notes = ["Extra Notes:", $('notes').value];
+//Save data into local storage. Use stringify to convert our object to string.
+	localStorage.setItem(id, JSON.stringify(item));
+	alert("Game is Saved!");
+	
+	}
+	
+	
+//put data into the HTML file
+	function getData(){
+	togcont("on");
+	if(localStorage.length === 0){
+		alert("There are no games to display.");
+	}
+//Write data ffom local storage to browser
+		var makeDiv = document.createElement('div');
+		makeDiv.setAttribute("id", "items");
+		var makeList = document.createElement('ul');
+		makeDiv.appendChild(makeList);
+		document.body.appendChild(makeDiv);
+		$('items').style.display = "block";
+		for(var i=0, j=localStorage.length; i<j; i++){
+			var makeLi = document.createElement('li');
+			var linkLi = document.createElement('li');
+			makeList.appendChild(makeLi);
+			var key = localStorage.key(i);
+			var value = localStorage.getItem(key);
+//convert string for local storage value back to an object using JSON.parse()
+			var obj = JSON.parse(value);
+			var makeSubList = document.createElement('ul');
+			makeLi.appendChild(makeSubList);
+			for(var x in obj){
+				var makeSubLi = document.createElement('li');
+				makeSubList.appendChild(makeSubLi);
+				var optSubText = obj[x][0]+" "+ obj[x][1];
+				makeSubLi.innerHTML = optSubText;
+				makeSubList.appendChild(linkLi);
+			}
+			makeItemLink(localStorage.key(i), linkLi); //creat the edit and delete buttons/link for each item in local storage
+		}
+	
+	}
+	
+//make item link functio to create and delete links for each stored iotem when displayed
+	function makeItemLink(key, linkLi){
+//add edit single item link
+		var editlink = document.createElement('a');
+		editlink.href = "#";
+		editlink.key = key;
+		var editText = "Edit Game";
+		editlink.addEventListener("click", editItem);
+		editlink.innerHTML = editText;
+		linkLi.appendChild(editlink);
+		
+//add line break
+		var breakTag = document.createElement('br');
+		linkLi.appendChild(breakTag);
+		
+//add delete single item link
+		var delLink = document.createElement('a');
+		delLink.href = "#";
+		delLink.key = key;
+		var delText = "Delete Game";
+		delLink.addEventListener("click", delItem);
+		delLink.innerHTML = delText;
+		linkLi.appendChild(delLink)
+	}
+	
+//
+	function editItem(){
+//grab the data from the item from local storage
+		var value = localStorage.getItem(this.key);
+		var item = JSON.parse(value);
 
-   function validate(e){
-      var getSname = $('sName');
-      var getTemps = $('temps');
-      //reset error message
-      errMsg.innerHTML = "";
-      getSname.style.border = "1px solid black";
-      getTemps.style.border = "1px solid black";
-      
-      var mesAry = [];
-      
-      if (getSname.value === ""){
-         var snameError = "Please enter your name.";
-         getSname.style.border = "1px solid red";
-         mesAry.push(snameError);
-      }
-      
-      if(getTemps.value === "--Choose A Temp--"){
-         var tempsError = "Please enter a temperature";
-         getTemps.style.border = "1px solid red";
-         mesAry.push(tempsError);
-      }
-      
-      if(mesAry.length >= 1){
-         for(var i=0, j=mesAry.length; i<j; i++){
-            var text = document.createElement('li');
-            text.innerHTML = mesAry[i];
-            errMsg.appendChild(text);
-         }
-         e.preventDefault();
-      }else{
-         saveData(this.key);
-      }
-      
-   }
+//show the form		
+		togcont("off");
+		
+//populate the form field with current localStorage value
+		$('gen').value = item.gen[1];
+		$('gName').value = item.gName[1];	
+		$('con').value = item.con[1];
+		var radio = document.forms[0].enjoy;
+		for(var i=0; i<radio.length; i++){
+			if(radio[i].value === "Yes" && item.enjoy[1] === "Yes"){
+				radio[i].setAttribute("checked", "checked");
+			}else if(radio[i].value === "No" && item.enjoy[1] ==="No"){
+				radio[i].setAttribute("checked", "checked");
+			}
+		}
+		if(item.beat[1] == "Yes"){
+			$('beat').setAttribute("checked", "checked");
+		}
+		$('date').value = item.date[1];
+		$('rate').value = item.rate[1];
+		$('notes').value = item.notes[1];
+		
+//remove the initial linstener from the input "save game' button
+		save.removeEventListener("click", saveData);
+//change submit button to edit button
+		$('submit').value = "Edit Game";
+		var editSubmit = $('submit');
+//save the key value in this function as a property of the editSubmit event
+//so we can use that value when we save the data we edited
+		editSubmit.addEventListener("click", validate);
+		editSubmit.key = this.key	
+	}
+	
+//delete single item
+	function delItem(){
+		var ask = confirm("Are you sure you want to delete this game?");
+		if(ask){
+			localStorage.removeItem(this.key)
+			alert("Game was deleted.");
+			window.location.reload();
+		}else{
+			alert("The game was not delete.");			
+		}
+	}
+	
 
-//Array for my temperature drop down
-    var meatTemp = ["--Choose A Temp--", "Rare", "Med-Rare", "Medium", "Med-Well", "Well"],
-         sideValue,
-         cheeseValue = "No",
-         errMsg = $('errors');
-    makeDrop();
-    
-//links and submit button
-
-    var displayData = $('displayData');
-    displayData.addEventListener("click", getData);
-   var clear = $('clear');
-    clear.addEventListener("click", clearData);
-    var save = $('submit');
-    save.addEventListener("click", validate);
-   
+//Clear data from confirm and delete local storage
+function clearData(){
+	var ask = confirm("Are you sure you want to delete local storage?");
+	if(ask){
+		localStorage.clear();
+		alert("Local Storage has been deleted.");
+		window.location.reload();
+	}else{
+		alert("Local Storage was not deleted.")
+	}
+}
+//validate function
+	function validate(e){
+//define the element to be checked
+		var getGen = $('gen');
+		var getGname = $('gName');
+		var getCon = $('con');
+		
+//reset error messages
+		errMsg.innerHTML = "";
+		getGen.style.border = "1px solid black";
+		getGname.style.border = "1px solid black";
+		getCon.style.border = "1px solid black";
+// get error messages
+		var mesAry = [];
+		
+//genre validation
+		if(getGen.value === "--Choose a Genre--"){
+			var genErr = "Please choose a Genre.";
+			getGen.style.border = "1px solid red";
+			mesAry.push(genErr);
+		}
+		
+//Game name validation
+		if(getGname.value === ""){
+			var gNameErr = "Please enter a Game Name.";
+			getGname.style.border = "1px solid red";
+			mesAry.push(gNameErr);
+		}
+		
+//Console validate
+		if(getCon.value === "--Choose a Console--"){;
+			var conErr = "Please choose a Console.";
+			getCon.style.border = "1px solid red";
+			mesAry.push(conErr)
+	}
+	
+//if there is an error display on the screen
+		if(mesAry.length >=1){
+			for(var i=0, j=mesAry.length; i<j; i++){
+				var text = document.createElement('li');
+				text.innerHTML = mesAry[i];
+				errMsg.appendChild(text);
+			}
+			e.preventDefault();
+			return false;
+		}else{
+//if no errors save the data. send the key value form the editData function
+//this key value was passed through the editSubmit event listener as a property
+			saveData(this.key);
+			
+		}
+}
+//Variable defaults
+	var genreList = ["--Choose a Genre--", "Action", "Adventure", "RPG", "Shooter"],
+		consoleList = ["--Choose a Console--", "PS3", "Xbox 360", "Wii"],
+	enjoyValue,
+	beatValue = "No",
+	errMsg = $('error');
+	getDrop1();
+	getDrop2();
+	
+//Set link & submit click event
+	var displayData = $('displayData');
+	displayData.addEventListener("click", getData);
+	var clearLink = $('clear');
+	clearLink.addEventListener("click", clearData);
+	var save = $('submit');
+	save.addEventListener("click", validate); 
+	
 });
