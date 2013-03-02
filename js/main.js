@@ -134,6 +134,8 @@ window.addEventListener("DOMContentLoaded", function(){
 			var obj = JSON.parse(value);
 			var makeSubList = document.createElement('ul');
 			makeLi.appendChild(makeSubList);
+//add image to local storage data
+		
 			for(var x in obj){
 				var makeSubLi = document.createElement('li');
 				makeSubList.appendChild(makeSubLi);
@@ -145,7 +147,8 @@ window.addEventListener("DOMContentLoaded", function(){
 		}
 	
 	}
-	
+
+//Image function for the console been displayed
 
 //Auto fill data function
    function defaultData(){
@@ -297,7 +300,7 @@ function clearData(){
 }
 //Variable defaults
 	var genreList = ["--Choose a Genre--", "Action", "Adventure", "RPG", "Shooter"],
-		consoleList = ["--Choose a Console--", "PS3", "Xbox 360", "Wii"],
+		consoleList = ["--Choose a Console--", "PS3", "Xbox360", "Wii"],
 	enjoyValue,
 	beatValue = "No",
 	errMsg = $('error');
