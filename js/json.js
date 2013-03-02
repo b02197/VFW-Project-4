@@ -13,7 +13,7 @@ var gameData = {
 	"game2":{
 		"gen": ["Genre:","Shooter"],
 		"gName": ["Game Name:","Halo 3"],
-		"con": ["Console:", "Xbox 360"],
+		"con": ["Console:", "Xbox360"],
 		"enjoy": ["Enjoy Game:", "Yes"],
 		"beat": ["Beaten Game:", "No"],
 		"date": ["Date Beaten:", ""],

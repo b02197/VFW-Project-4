@@ -135,7 +135,7 @@ window.addEventListener("DOMContentLoaded", function(){
 			var makeSubList = document.createElement('ul');
 			makeLi.appendChild(makeSubList);
 //add image to local storage data
-		
+			getImage(obj.con[1], makeSubList);
 			for(var x in obj){
 				var makeSubLi = document.createElement('li');
 				makeSubList.appendChild(makeSubLi);
@@ -149,6 +149,14 @@ window.addEventListener("DOMContentLoaded", function(){
 	}
 
 //Image function for the console been displayed
+	function getImage(gameImg, makeSubList){
+		var imgLi = document.createElement('li');
+		makeSubList.appendChild(imgLi);
+		var img = document.createElement('img');
+		var setSrc = img.setAttribute("src", "img/"+ gameImg +".png");
+		imgLi.appendChild(img);
+		
+	}
 
 //Auto fill data function
    function defaultData(){
