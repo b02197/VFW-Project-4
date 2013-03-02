@@ -12,7 +12,6 @@ body{
 fieldset{
     background-color:#508391;
     border-color: black;
-    max-width:330px;
     margin:10px;
     padding: 10px;
     text-align: left;
@@ -25,14 +24,13 @@ nav > a{
     border: 1px solid black;
     background-color: #7E6956;
     padding:3px;
-    text-align: center;
+    text-align: left;
     
 }   
 h1{
     margin: 10px;
     border: 1px solid black;
     padding: 10px;
-    width: 330px;
     background-color: #7E6956;
     font-family: Arial;
     text-align: center;
@@ -52,7 +50,7 @@ input{
 }
 
 ul{
-list-style-type: none;
+	list-style-type: none;
     font-family: arial;
     color:#F6EACC;
 }
@@ -61,15 +59,17 @@ list-style-type: none;
 div{
     font-family: arial;
     font-size: 18px;
-        background-color:#508391;
+    background-color:#508391;
     border-color: black;
     max-width:330px;
-    margin:10px;
-    padding: 10px;
-    text-align: justify;
     max-height: inherit;
 }
 #error{
 	color:red;
 	font-style:;
+}
+
+div ul> li ul{
+	border-bottom: 2px solid black;
+	margin-bottom:5px;
 }
