@@ -1,3 +1,9 @@
+//Michael Eaton
+//project 4
+//1302
+
+
+
 var gameData = {
 	"game1":{
 		"gen": ["Genre:","RPG"],
